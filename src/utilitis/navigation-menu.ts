@@ -12,6 +12,10 @@ export const navigationMenuItems = [
         path:'/booking'
     },
     {
+        title:'Car List',
+        path:'/car-list'
+    },
+    {
         title:'Contact',
         path:'/contact'
     }

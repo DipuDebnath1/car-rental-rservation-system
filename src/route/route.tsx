@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "@/pages/home/Home";
-import CarList from "@/pages/carList/CarList";
 import CarDetails from "@/pages/carDetails/CarDetails";
-import ErrorPage from "@/pages/errorPage/ErrorPage";
+import NotFoundPage  from "@/pages/errorPage/NotFoundPage";
+import CarListingPage from "@/pages/carListing/CarListing";
+import AboutUs from "@/pages/about/AboutUs";
+import Contact from "@/pages/contact/Contact";
 
 export const router = createBrowserRouter([{
     path:"/",
     element:<App />,
-    errorElement:<ErrorPage />,
+    errorElement:<NotFoundPage  />,
     children:[
         {
         index:true,
@@ -16,11 +18,19 @@ export const router = createBrowserRouter([{
          },
         {
         path:'car-list',
-        element:<CarList />
+        element:<CarListingPage />
         },
         {
-        path:'car-details',
+        path:'car-details/:id',
         element:<CarDetails />
+        },
+        {
+        path:'about',
+        element:<AboutUs />
+        },
+        {
+        path:'contact',
+        element:<Contact />
         },
 
 ]

@@ -44,8 +44,8 @@ const Footer = () => {
                     {/* Contact Us */}
                     <div className="w-full md:w-1/4">
                         <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-                        <p className="text-gray-400 mb-2">Road-12, Sector-3, Banashree</p>
-                        <p className="text-gray-400 mb-2">Dhaka, 5100</p>
+                        <p className="text-gray-400 mb-2">123 Car Lane, Drive City</p>
+                        <p className="text-gray-400 mb-2">Thakurgaon 5100</p>
                         <p className="text-gray-400 mb-2">Email: info@flexicar.com</p>
                         <p className="text-gray-400">Phone: +880155454</p>
                     </div>
