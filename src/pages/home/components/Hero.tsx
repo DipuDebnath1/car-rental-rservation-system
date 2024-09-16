@@ -7,7 +7,6 @@ const HeroSection = () => {
     const [endDate, setEndDate] = useState('');
 
     const handleSearch = () => {
-        // Handle the search logic here
         console.log('Searching for cars in', location, 'from', startDate, 'to', endDate);
     };
 
