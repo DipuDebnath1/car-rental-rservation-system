@@ -6,52 +6,6 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import SectionTitle from '@/shared-components/sectionTitle/SectionTitle';
 import { useAppSelector } from '@/redux/hooks';
 
-// const featuredCars = [
-//     {
-//         id: 1,
-//         image: 'https://i.ibb.co.com/Fg1ZPV3/team-left.png',
-//         name: 'Car Model 1',
-//         description: 'Brief description of car model 1',
-//         price: '$30/hr'
-//     },
-//     {
-//         id: 2,
-//         image: 'https://i.ibb.co.com/Fg1ZPV3/team-left.png',
-//         name: 'Car Model 2',
-//         description: 'Brief description of car model 2',
-//         price: '$40/hr'
-//     },
-//     {
-//         id: 1,
-//         image: 'https://i.ibb.co.com/Fg1ZPV3/team-left.png',
-//         name: 'Car Model 1',
-//         description: 'Brief description of car model 1',
-//         price: '$30/hr'
-//     },
-//     {
-//         id: 2,
-//         image: 'https://i.ibb.co.com/Fg1ZPV3/team-left.png',
-//         name: 'Car Model 2',
-//         description: 'Brief description of car model 2',
-//         price: '$40/hr'
-//     },
-//     {
-//         id: 1,
-//         image: 'https://i.ibb.co.com/Fg1ZPV3/team-left.png',
-//         name: 'Car Model 1',
-//         description: 'Brief description of car model 1',
-//         price: '$30/hr'
-//     },
-//     {
-//         id: 2,
-//         image: 'https://i.ibb.co.com/Fg1ZPV3/team-left.png',
-//         name: 'Car Model 2',
-//         description: 'Brief description of car model 2',
-//         price: '$40/hr'
-//     },
-//     // Add more cars as needed
-// ];
-
 const FeaturedCars = () => {
   const featuredCars = useAppSelector(state=>state.cars.cars)
 
