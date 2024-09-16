@@ -3,10 +3,12 @@ import App from "../App";
 import Home from "@/pages/home/Home";
 import CarList from "@/pages/carList/CarList";
 import CarDetails from "@/pages/carDetails/CarDetails";
+import ErrorPage from "@/pages/errorPage/ErrorPage";
 
 export const router = createBrowserRouter([{
     path:"/",
     element:<App />,
+    errorElement:<ErrorPage />,
     children:[
         {
         index:true,

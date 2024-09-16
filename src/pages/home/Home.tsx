@@ -1,10 +1,11 @@
+import FeaturedCars from "./components/FeaturedCars";
 
 const Home = () => {
-    return (
-        <div>
-            Home
-        </div>
-    );
+  return (
+    <>
+      <FeaturedCars />
+    </>
+  );
 };
 
 export default Home;

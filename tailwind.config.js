@@ -1,7 +1,14 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
-    content: ["./src/**/*.{html,js}"],
+    // content: ["./src/**/*.{html,js}"],
+	content: [
+		"./index.html",
+		"./src/**/*.{js,ts,jsx,tsx}",
+		"./node_modules/@shadcn/ui/components/**/*.js" // Add this line to include shadcn components
+	  ],
   theme: {
   	extend: {
   		borderRadius: {
@@ -12,5 +19,7 @@ module.exports = {
   		colors: {}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+	require("tailwindcss-animate"),
+  ],
 }
