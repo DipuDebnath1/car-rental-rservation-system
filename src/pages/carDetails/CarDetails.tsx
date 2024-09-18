@@ -2,7 +2,7 @@
 import { useGetCarQuery } from '@/redux/api/baseApi';
 import { TCar } from '@/redux/feautures/carSlice';
 import Loading from '@/shared-components/Loading';
-import ImageMagnifier from '@/utilitis/ImageMagnifier';
+import ImageMagnifier from '@/shared-components/ImageMagnifier';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 

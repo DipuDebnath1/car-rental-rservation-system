@@ -18,5 +18,9 @@ export const navigationMenuItems = [
     {
         title:'Contact',
         path:'/contact'
-    }
+    },
+    {
+        title:'Dashboard',
+        path:'/admin'
+    },
 ]

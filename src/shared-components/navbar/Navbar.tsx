@@ -1,4 +1,4 @@
-import { navigationMenuItems } from "@/utilitis/navigation-menu";
+import { navigationMenuItems } from "@/utilities/menuBar";
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const Navbar = () => {
           </nav>
 
           {/* small device view */}
-         { showMenu && <nav className="absolute md:hidden flex top-[4rem] flex-col shadow-xl border items-center justify-start w-[10rem] right-[1rem] rounded transition">
+         { showMenu && <nav className="absolute md:hidden flex top-[4rem] flex-col shadow-xl border items-center justify-start w-[10rem] right-[1rem] rounded transition bg-gray-50">
             {
                 navigationMenuItems.map((navigationItem, i)=><NavLink key={i} onClick={()=>setShowMenu(!showMenu)}  className="text-gray-600 hover:text-blue-500 h-full text-sm font-semibold shadow w-full py-2 px-3" to={navigationItem.path}>{navigationItem.title}</NavLink>)
             }
