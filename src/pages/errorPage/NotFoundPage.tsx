@@ -12,7 +12,7 @@ const NotFoundPage  = () => {
           <Link to="/" className="bg-blue-500 text-white px-4 py-2 rounded-md mr-4 hover:bg-blue-600">
             Go to Home
           </Link>
-          <Link to="/login" className="text-blue-500 hover:underline">
+          <Link to="/sign-in" className="text-blue-500 hover:underline">
             Login
           </Link>
         </div>

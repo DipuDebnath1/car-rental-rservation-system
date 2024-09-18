@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/hooks";
 import { adminPaths } from "@/route/admin.route";
 import { userPaths } from "@/route/user.route";
 import { SidebarNavigationGenerator } from "@/utilities/Sidebar.Generator";
@@ -6,22 +7,22 @@ import Sider from "antd/es/layout/Sider";
 
 const Sidebar = () => {
 
-  const role = 'user'
-
+  const user = useAppSelector(state=>state.user.user)
+  
   const userRole = {
     ADMIN:'admin',
-    USER:'user',
+   USER:'user',
 }
 
   let sidebarItems 
 
-  switch (role) {
+  switch (user!.role) {
     case userRole.ADMIN:
-      sidebarItems = SidebarNavigationGenerator(adminPaths, userRole.ADMIN)
+      sidebarItems = SidebarNavigationGenerator(adminPaths, user!.role)
       break;
 
     case userRole.USER:
-      sidebarItems = SidebarNavigationGenerator(userPaths, userRole.USER)
+      sidebarItems = SidebarNavigationGenerator(userPaths, user!.role)
       break;
   
     default:

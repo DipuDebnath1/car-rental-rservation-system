@@ -12,6 +12,8 @@ import { adminPaths } from "./admin.route";
 import { routeGenerator } from "@/utilities/route.Generator";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout";
 import { userPaths } from "./user.route";
+import AdminRoute from "@/pages/authoraization-user/AdminRoute";
+import UserRoute from "@/pages/authoraization-user/UserRoute";
 
 export const router = createBrowserRouter([
   {
@@ -41,12 +43,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <DashboardLayout />,
+        element:<AdminRoute> <DashboardLayout /></AdminRoute>,
         children: routeGenerator(adminPaths),
       },
       {
         path: 'user',
-        element: <DashboardLayout />,
+        element: <UserRoute><DashboardLayout /></UserRoute>,
         children: routeGenerator(userPaths),
       },
     ],

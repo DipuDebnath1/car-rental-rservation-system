@@ -18,7 +18,16 @@ export const baseApi = createApi({
             query:(id)=>`/cars/${id}`,
             providesTags:['cars']
         }),
+
+        //query a cars
+        signINUser :builder.mutation({
+            query:(data)=>({
+             url:`/auth/signin`,
+             body:data,
+             method:"POST" 
+            }),
+        }),
     })
 })
 
-export const {useGetCarsQuery, useGetCarQuery} = baseApi
+export const {useGetCarsQuery, useGetCarQuery, useSignINUserMutation} = baseApi

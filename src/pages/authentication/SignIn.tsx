@@ -1,85 +1,107 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useSignINUserMutation } from "@/redux/api/baseApi";
+import { setToken, setUser } from "@/redux/feautures/userSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'sonner'
 
 const SignIn = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        termsAccepted: false,
-      });
-    
-      const [errors, setErrors] = useState({
-        emailError: '',
-        passwordError: '',
-        termsError: '',
-      });
-    
-    
-      const validateEmail = (email: string) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-      };
-    
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-          ...formData,
-          [name]: type === 'checkbox' ? checked : value,
-        });
-    
-        // Clear errors as the user starts typing
-        setErrors({
-          ...errors,
-          [`${name}Error`]: '',
-        });
-      };
-    
-      const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-    
-        let formValid = true;
-    
-        // Validation checks
-        if (!validateEmail(formData.email)) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            emailError: 'Please enter a valid email address.',
-          }));
-          formValid = false;
-        }
-    
-        if (formData.password.length < 8) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            passwordError: 'Password must be at least 8 characters long.',
-          }));
-          formValid = false;
-        }
-    
-    
-        if (!formData.termsAccepted) {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            termsError: 'You must accept the Terms and Conditions.',
-          }));
-          formValid = false;
-        }
-    
-        // If form is valid, proceed with the submission
-        if (formValid) {
-          console.log('Form Submitted:', formData);
-        
-        }
-      };
-    return (
-        <div className="min-h-screen bg-gray-100 py-10">
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    termsAccepted: false,
+  });
+
+  const [errors, setErrors] = useState({
+    emailError: "",
+    passwordError: "",
+    termsError: "",
+  });
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+
+    // Clear errors as the user starts typing
+    setErrors({
+      ...errors,
+      [`${name}Error`]: "",
+    });
+  };
+
+  const [signIn] = useSignINUserMutation();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    let formValid = true;
+
+    // Validation 
+    if (!validateEmail(formData.email)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        emailError: 'Please enter a valid email address.',
+      }));
+      formValid = false;
+    }
+
+    if (formData.password.length < 8) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        passwordError: 'Password must be at least 8 characters long.',
+      }));
+      formValid = false;
+    }
+
+    if (!formData.termsAccepted) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        termsError: 'You must accept the Terms and Conditions.',
+      }));
+      formValid = false;
+    }
+
+    // form submission
+    if (formValid) {
+      try {
+        const result = await signIn({ email: formData.email, password: formData.password }).unwrap();
+        toast.success('Event has been created')
+        dispatch(setUser(result.data)); 
+        dispatch(setToken(result.token)); 
+        navigate(`/${result.data.role}`)
+
+      } catch (err) {
+        toast.error(err.data.message)
+        console.error('Failed to sign in:', err);
+      }
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 py-10">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Sign In</h1>
+        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+          Sign In
+        </h1>
 
         <div className="max-w-md mx-auto bg-white p-8 shadow-md rounded-md">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email Address
               </label>
               <input
@@ -91,11 +113,16 @@ const SignIn = () => {
                 required
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               />
-              {errors.emailError && <p className="text-red-500 text-sm">{errors.emailError}</p>}
+              {errors.emailError && (
+                <p className="text-red-500 text-sm">{errors.emailError}</p>
+              )}
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -107,7 +134,9 @@ const SignIn = () => {
                 required
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               />
-              {errors.passwordError && <p className="text-red-500 text-sm">{errors.passwordError}</p>}
+              {errors.passwordError && (
+                <p className="text-red-500 text-sm">{errors.passwordError}</p>
+              )}
             </div>
 
             <div>
@@ -119,12 +148,18 @@ const SignIn = () => {
                   onChange={handleChange}
                   className="mr-2"
                 />
-                I accept the{' '}
-                <a href="/terms" target="_blank" className="text-blue-500 underline">
+                I accept the{" "}
+                <a
+                  href="/terms"
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
                   Terms and Conditions
                 </a>
               </label>
-              {errors.termsError && <p className="text-red-500 text-sm">{errors.termsError}</p>}
+              {errors.termsError && (
+                <p className="text-red-500 text-sm">{errors.termsError}</p>
+              )}
             </div>
 
             <button
@@ -136,7 +171,7 @@ const SignIn = () => {
           </form>
 
           <p className="text-center text-sm text-gray-600 mt-4">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link to="/sign-up" className="text-blue-500 underline">
               Sign In Instead
             </Link>
@@ -154,7 +189,7 @@ const SignIn = () => {
         </footer>
       </div>
     </div>
-    );
+  );
 };
 
 export default SignIn;

@@ -1,18 +1,34 @@
 import { configureStore } from "@reduxjs/toolkit";
 import carSlice from "./feautures/carSlice";
 import { baseApi } from "./api/baseApi";
+import userSlice from "./feautures/userSlice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, persistStore} from "redux-persist";
+
+const persistConfig = {
+    key:"user",
+    storage
+}
+
+const persistedAuthStore = persistReducer(persistConfig, userSlice)
 
 export const store = configureStore({
     reducer:{
         [baseApi.reducerPath]: baseApi.reducer,
-        cars:carSlice
-        
+        cars:carSlice,
+        user:persistedAuthStore,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(baseApi.middleware),
+        getDefaultMiddleware({
+            serializableCheck: {
+              ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+          }).concat(baseApi.middleware),
 }) 
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
+
+export const persistor = persistStore(store)

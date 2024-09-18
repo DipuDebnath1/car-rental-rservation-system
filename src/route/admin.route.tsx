@@ -1,3 +1,4 @@
+import AdminRoute from "@/pages/authoraization-user/AdminRoute";
 import ManageBookings from "@/pages/dashboard/admin/manageBookings/ManageBookings";
 import ManagedCars from "@/pages/dashboard/admin/manageCars/ManagedCars";
 import ReturnOptions from "@/pages/dashboard/admin/manageReturnCars/returnOptions/ReturnOptions";
@@ -10,17 +11,17 @@ export const adminPaths = [
         name:"Dashboard Overview",
         index:true,
         // path:'overview',
-        element:<DashboardOverview />
+        element:<AdminRoute> <DashboardOverview /></AdminRoute>
     },
     {
         name:"Manage Cars",
         path:'manage-cars',
-        element:<ManagedCars />
+        element:<AdminRoute><ManagedCars /></AdminRoute> 
     },
     {
         name:"Manage Booking",
         path:'manage-booking',
-        element:<ManageBookings />
+        element:<AdminRoute><ManageBookings /></AdminRoute>
     },
     {
         name:"Manege Return",
@@ -28,18 +29,18 @@ export const adminPaths = [
             {
                 name:"View Booked Cars",
                 path:"booked-cars",
-                element:<ViewBookedCars />
+                element:<AdminRoute><ViewBookedCars /></AdminRoute> 
             },
             {
                 name:"Return Options",
                 path:"return",
-                element:<ReturnOptions />
+                element:<AdminRoute><ReturnOptions /></AdminRoute> 
             },
         ]
     },
     {
         name:"User Management",
         path:"user-management",
-        element:<UserManagement />
+        element:<AdminRoute> <UserManagement /></AdminRoute>
     }
 ]
