@@ -34,7 +34,7 @@ const testimonials = [
 
 const CustomerTestimonials = () => {
     return (
-        <section className="bg-white">
+        <section className="bg-white pb-[5rem]">
             <div className="container mx-auto px-4">
                 <SectionTitle title="Customer Testimonials" />
 

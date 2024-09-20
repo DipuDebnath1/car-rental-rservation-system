@@ -1,20 +1,5 @@
+import { TCar } from "@/types/allTyps"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
-export type TCar = {
-    _id: string;
-    name: string;
-    color: string;
-    description: string;
-    features: string[];
-    isDeleted: boolean;
-    isElectric: boolean;
-    pricePerHour: number;
-    status: 'available' | 'unavailable' | 'rented'; 
-    createdAt: string; 
-    updatedAt: string; 
-    __v: number;
-}
-
 
 type TCarsState = {
     data : TCar[] | null,

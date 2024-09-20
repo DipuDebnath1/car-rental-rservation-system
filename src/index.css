@@ -6,3 +6,6 @@
     --radius: 0.5rem
   }
 }
+.sidebar-bg{
+  background-color: white !important;
+}

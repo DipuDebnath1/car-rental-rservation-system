@@ -1,20 +1,28 @@
 import { Layout } from "antd";
-// import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
+import { useAppSelector } from "@/redux/hooks";
+import Loading from "@/shared-components/Loading";
 const { Content} = Layout;
 const DashboardLayout = () => {
 
+  const loading = useAppSelector(state => state.user.loading);
+  
+  if(loading){
+      return <Loading />
+  }
   return (
-    <Layout>
-       <Sidebar />
-    <Layout>
-      {/* <Header style={{ padding: 0, background: colorBgContainer }} /> */}
-      <Content>
-          <Outlet />
-      </Content>
-    </Layout>
-  </Layout>
+    <div className="">
+         <Layout>
+           <Sidebar/>
+            <Layout>
+                <Content className="bg-white">
+                    <Outlet />
+                </Content>
+            </Layout>
+        </Layout>
+    </div>
+ 
   );
 };
 

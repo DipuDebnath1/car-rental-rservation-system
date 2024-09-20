@@ -8,7 +8,6 @@ import Loading from "@/shared-components/Loading";
 import Navbar from "@/shared-components/navbar/Navbar";
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { Toaster } from "sonner";
 
 const MainLayout = () => {
   const dispatch = useAppDispatch()
@@ -29,7 +28,6 @@ const MainLayout = () => {
   return (
 
     <div>
-      <Toaster position="top-right" />
       <Navbar />
      {location.pathname ==='/' && <HeroSection />}
       <div className="max-w-7xl mx-auto w-full">

@@ -1,5 +1,6 @@
-import { useSignINUserMutation } from "@/redux/api/baseApi";
-import { setToken, setUser } from "@/redux/feautures/userSlice";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useSignInUserMutation } from "@/redux/api/baseApi";
+import { setLoading, setToken, setUser } from "@/redux/feautures/userSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -41,7 +42,7 @@ const SignIn = () => {
     });
   };
 
-  const [signIn] = useSignINUserMutation();
+  const [signIn,{isLoading}] = useSignInUserMutation();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -74,14 +75,17 @@ const SignIn = () => {
 
     // form submission
     if (formValid) {
+      
       try {
         const result = await signIn({ email: formData.email, password: formData.password }).unwrap();
-        toast.success('Event has been created')
+        
+        toast.success(result.message)
         dispatch(setUser(result.data)); 
         dispatch(setToken(result.token)); 
+        dispatch(setLoading(isLoading))
         navigate(`/${result.data.role}`)
 
-      } catch (err) {
+      } catch (err:any) {
         toast.error(err.data.message)
         console.error('Failed to sign in:', err);
       }
@@ -166,7 +170,7 @@ const SignIn = () => {
               type="submit"
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
             >
-              Sign Up
+              Sign In
             </button>
           </form>
 

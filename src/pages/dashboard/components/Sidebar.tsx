@@ -30,18 +30,21 @@ const Sidebar = () => {
   }
     
     return (
-        <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        className="border-r-2"
-      >
-        <div className="demo-logo-vertical" />
-        <Menu theme="light"
-        className="pt-[2rem] bg-white" 
-        mode="inline" 
-        defaultSelectedKeys={['4']} 
-        items={sidebarItems} />
-      </Sider>
+      <Sider
+      breakpoint="lg"
+      collapsedWidth="0"
+      className="border-r-2 sidebar-bg min-h-[70vh]"
+    >
+      <div className="demo-logo-vertical" />
+      <Menu
+        // style={{backgroundColor:'white'}} 
+        theme="light"
+        className="pt-[2rem] font-semibold text-sm"
+        mode="inline"
+        defaultSelectedKeys={['4']}
+        items={sidebarItems}
+      />
+    </Sider>
     );
 };
 

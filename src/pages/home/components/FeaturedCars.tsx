@@ -42,7 +42,7 @@ const FeaturedCars = () => {
               modules={[Autoplay,  Navigation]}
             >
          {featuredCars!.map((car,i) => ( <SwiperSlide key={i}><div  className="bg-white border shadow-lg rounded-lg overflow-hidden">
-                <img src={'https://i.ibb.co.com/Fg1ZPV3/team-left.png'} alt={car.name} className="w-full h-[20rem] object-cover" />
+                <img src={car.img} alt={car.name} className="w-full max-h-[20rem] object-cover" />
                 <div className="p-4">
                     <h3 className="text-xl font-semibold mb-2">{car.name}</h3>
                     <p className="text-gray-600 mb-2">{car.description}</p>

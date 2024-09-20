@@ -1,10 +1,10 @@
 
 import { useGetCarQuery } from '@/redux/api/baseApi';
-import { TCar } from '@/redux/feautures/carSlice';
 import Loading from '@/shared-components/Loading';
 import ImageMagnifier from '@/shared-components/ImageMagnifier';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { TCar } from '@/types/allTyps';
 
 
 const reviews= [
@@ -41,7 +41,7 @@ const CarDetailPage = () => {
       {/* Car Image Section with Zoom */}
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/2 p-4 overflow-hidden">
-        <ImageMagnifier src="https://i.ibb.co.com/Fg1ZPV3/team-left.png" />
+        <ImageMagnifier src={car?.img} />
         </div>
 
         {/* Car Details Section */}

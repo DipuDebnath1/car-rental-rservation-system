@@ -75,7 +75,7 @@ const CarListingPage = () => {
                 {car.status==='unavailable' && <span className='text-red-500 font-semibold'>{car.status}</span>}
 
             </div>
-            <img src={'https://i.ibb.co.com/Fg1ZPV3/team-left.png'} alt={car.name} className="h-[20rem] w-full object-cover mb-4 rounded-lg" />
+            <img src={car.img} alt={car.name} className="h-[20rem] w-full object-cover mb-4 rounded-lg" />
             <h3 className="text-xl font-semibold mb-2">{car.name}</h3>
             <p className="text-gray-600 mb-4">{car.description}</p>
             <div className="text-lg font-bold mb-4">Price: ${car.pricePerHour}/hour</div>

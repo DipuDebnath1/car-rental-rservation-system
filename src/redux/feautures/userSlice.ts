@@ -1,24 +1,16 @@
+import { TUser } from "@/types/allTyps"
 import { createSlice } from "@reduxjs/toolkit"
-
-export type TUser = {
-    _id:string,
-    name:string,
-    email:string,
-    role:string,
-    phone:string,
-    address:string,
-    createdAt:string,
-    updatedAt:string
-} 
-
+ 
 type TInitialState = {
     user: TUser | null,
-    token:string | null
+    token:string | null,
+    loading:boolean
 }
 
 const  initialState:TInitialState = {
     user: null,
-    token:null
+    token:null,
+    loading:true
 }
 
 export const  userSlice = createSlice({
@@ -37,9 +29,12 @@ export const  userSlice = createSlice({
         removeToken : (state) =>{
             state.token = null
         },
+        setLoading : (state, action) =>{
+            state.loading = action.payload
+        },
     })
 })
 
 
-export const {setUser, removeUser, setToken, removeToken} = userSlice.actions
+export const {setUser, removeUser, setToken, removeToken, setLoading} = userSlice.actions
 export default userSlice.reducer
