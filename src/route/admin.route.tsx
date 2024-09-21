@@ -2,6 +2,7 @@ import AdminRoute from "@/pages/authoraization-user/AdminRoute";
 import ManageBookings from "@/pages/dashboard/admin/manageBookings/ManageBookings";
 import AddNewCar from "@/pages/dashboard/admin/manageCars/AddNewCar";
 import ManagedCars from "@/pages/dashboard/admin/manageCars/ManagedCars";
+import UpdateCars from "@/pages/dashboard/admin/manageCars/UpdateCars";
 import ReturnOptions from "@/pages/dashboard/admin/manageReturnCars/returnOptions/ReturnOptions";
 import ViewBookedCars from "@/pages/dashboard/admin/manageReturnCars/viewBookedCars/ViewBookedCars";
 import DashboardOverview from "@/pages/dashboard/admin/overview/DashboardOverview";
@@ -38,6 +39,16 @@ export const adminPaths = [
             <AddNewCar />
           </AdminRoute>
         ),
+      },
+      {
+        name: "Update Car",
+        path: "update-cars/:id",
+        element: (
+          <AdminRoute>
+            <UpdateCars />
+          </AdminRoute>
+        ),
+        ignore: true,
       },
     ],
   },

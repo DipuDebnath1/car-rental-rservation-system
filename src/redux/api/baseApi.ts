@@ -62,7 +62,7 @@ export const baseApi = createApi({
           method: "GET",
         };
       },
-      providesTags: ["booking"],
+      providesTags: ["booking", "cars"],
     }),
 
     //get Upcoming Booking

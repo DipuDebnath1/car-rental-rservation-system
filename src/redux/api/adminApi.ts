@@ -24,7 +24,33 @@ export const adminApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["cars", "admin"],
     }),
+
+    // update car
+    updateCar: builder.mutation({
+      query: (payload) => {
+        return {
+          url: `/cars/${payload.id}`,
+          method: "PUT",
+          body: payload.data,
+        };
+      },
+      invalidatesTags: ["cars", "admin"],
+    }),
+
+    // delete car
+    deleteCar: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `cars/${id}`,
+      }),
+      invalidatesTags: ["cars"],
+    }),
   }),
 });
 
-export const { useFindAllBookingQuery, usePostCarMutation } = adminApi;
+export const {
+  useFindAllBookingQuery,
+  usePostCarMutation,
+  useUpdateCarMutation,
+  useDeleteCarMutation,
+} = adminApi;
