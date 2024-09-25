@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { setUser } from "@/redux/feautures/userSlice";
 const UpdateProfile = () => {
   const user = useAppSelector((state) => state.user.user);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [updateUser] = useUpdateUserMutation();
 
   // Set form state based on existing user details
@@ -46,15 +46,14 @@ const UpdateProfile = () => {
     e.preventDefault();
 
     try {
-      
+      console.log(formData);
       const res = await updateUser(formData);
-      dispatch(setUser(res.data.data))
+      dispatch(setUser(res.data.data));
       toast.success(res.data.message);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err:any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       toast.error(err.message);
     }
-
   };
 
   return (

@@ -35,7 +35,15 @@ export const baseApi = createApi({
       providesTags: ["cars"],
     }),
 
-    //query a cars
+    //sign Up User a cars
+    signUpUser: builder.mutation({
+      query: (data) => ({
+        url: `/auth/signup`,
+        body: data,
+        method: "POST",
+      }),
+    }),
+    //sign In User a cars
     signInUser: builder.mutation({
       query: (data) => ({
         url: `/auth/signin`,
@@ -44,7 +52,7 @@ export const baseApi = createApi({
       }),
     }),
 
-    //update update-profile a cars
+    //update update-profile
     updateUser: builder.mutation({
       query: (data) => ({
         url: `/auth/update-profile`,
@@ -92,6 +100,7 @@ export const {
   useGetCarsQuery,
   useGetCarQuery,
   useSignInUserMutation,
+  useSignUpUserMutation,
   useGetUserBookingCarsQuery,
   useUpdateUserMutation,
   useGetUpcomingBookingQuery,

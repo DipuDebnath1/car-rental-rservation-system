@@ -2,10 +2,23 @@ import { useUpdateCarMutation } from "@/redux/api/adminApi";
 import { useGetCarQuery } from "@/redux/api/baseApi";
 import Loading from "@/shared-components/Loading";
 import { TCar } from "@/types/allTyps";
+import { ImageUpload } from "@/utilities/imageUpload";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
+
+type TFormData = {
+  name?: string;
+  description?: string;
+  img?: string;
+  color?: string;
+  isElectric?: boolean;
+  isDeleted?: boolean;
+  features?: string[];
+  pricePerHour?: number;
+  status?: string;
+};
 
 const UpdateCars = () => {
   const [updateCar] = useUpdateCarMutation();
@@ -19,12 +32,12 @@ const UpdateCars = () => {
     }
   }, [data]);
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<TFormData>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formDataItem = Object.keys(formData);
+    const formDataItem = Object.keys(formData!);
 
     if (formDataItem.length < 1) {
       return toast.error("you can't update car data");
@@ -57,6 +70,22 @@ const UpdateCars = () => {
   if (isLoading) {
     return <Loading />;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleImageUpload = async (e: any) => {
+    try {
+      // local url
+      const imageLink = await ImageUpload(e);
+      // const localUrl = URL.createObjectURL(e);
+      if (imageLink) {
+        console.log(imageLink);
+        setFormData({ ...formData, img: imageLink });
+      }
+      // console.log(e);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <form
@@ -109,16 +138,19 @@ const UpdateCars = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Image URL</label>
-            <input
-              type="text"
-              placeholder="Image URL"
-              defaultValue={car.img}
-              onChange={(e) =>
-                setFormData({ ...formData, img: e.target.value })
-              }
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
+            <label className="block text-sm font-medium mb-2">Image</label>
+            {formData && formData?.img ? (
+              <img src={formData?.img} alt="image" className="h-32 w-auto" />
+            ) : (
+              <>
+                <img src={car.img} alt="image" className="h-32 w-auto" />
+                <input
+                  type="file"
+                  onChange={(e) => handleImageUpload(e.target.files?.[0])}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                />
+              </>
+            )}
           </div>
 
           <div className="mb-4">
@@ -157,7 +189,7 @@ const UpdateCars = () => {
               <input
                 id="delete"
                 type="checkbox"
-                // checked={car.isDeleted}
+                checked={car.isDeleted}
                 onChange={(e) =>
                   setFormData({ ...formData, isDeleted: !e.target.checked })
                 }

@@ -3,20 +3,19 @@ import Loading from "@/shared-components/Loading";
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-const UserRoute = ({children}:{children:ReactNode}) => {
+const UserRoute = ({ children }: { children: ReactNode }) => {
+  const user = useAppSelector((state) => state.user.user);
+  const loading = useAppSelector((state) => state.user.loading);
 
-    const user = useAppSelector(state => state.user.user);
+  if (loading) {
+    return <Loading />;
+  }
 
-    const loading = useAppSelector(state => state.user.loading);
+  if (user && user.role === "user") {
+    return <>{children}</>;
+  }
 
-    if(loading){
-        return <Loading />
-    }
-
-    if (user && user.role === "user") {
-        return <>{children}</>
-    }
-    return <Navigate to="/sign-in" />;
+  return <Navigate to="/sign-in" />;
 };
 
 export default UserRoute;

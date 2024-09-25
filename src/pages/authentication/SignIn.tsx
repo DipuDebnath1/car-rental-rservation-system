@@ -3,10 +3,12 @@ import { useSignInUserMutation } from "@/redux/api/baseApi";
 import { setLoading, setToken, setUser } from "@/redux/feautures/userSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import React, { useState } from "react";
+import { FaEye } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 const SignIn = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,7 +22,7 @@ const SignIn = () => {
   });
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,7 +30,6 @@ const SignIn = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -42,17 +43,17 @@ const SignIn = () => {
     });
   };
 
-  const [signIn,{isLoading}] = useSignInUserMutation();
+  const [signIn, { isLoading }] = useSignInUserMutation();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let formValid = true;
 
-    // Validation 
+    // Validation
     if (!validateEmail(formData.email)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        emailError: 'Please enter a valid email address.',
+        emailError: "Please enter a valid email address.",
       }));
       formValid = false;
     }
@@ -60,7 +61,7 @@ const SignIn = () => {
     if (formData.password.length < 8) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        passwordError: 'Password must be at least 8 characters long.',
+        passwordError: "Password must be at least 8 characters long.",
       }));
       formValid = false;
     }
@@ -68,26 +69,27 @@ const SignIn = () => {
     if (!formData.termsAccepted) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        termsError: 'You must accept the Terms and Conditions.',
+        termsError: "You must accept the Terms and Conditions.",
       }));
       formValid = false;
     }
 
     // form submission
     if (formValid) {
-      
       try {
-        const result = await signIn({ email: formData.email, password: formData.password }).unwrap();
-        
-        toast.success(result.message)
-        dispatch(setUser(result.data)); 
-        dispatch(setToken(result.token)); 
-        dispatch(setLoading(isLoading))
-        navigate(`/${result.data.role}`)
+        const result = await signIn({
+          email: formData.email,
+          password: formData.password,
+        }).unwrap();
 
-      } catch (err:any) {
-        toast.error(err.data.message)
-        console.error('Failed to sign in:', err);
+        toast.success(result.message);
+        dispatch(setUser(result.data));
+        dispatch(setToken(result.token));
+        dispatch(setLoading(isLoading));
+        navigate(`/${result.data.role}`);
+      } catch (err: any) {
+        toast.error(err.data.message);
+        console.error("Failed to sign in:", err);
       }
     }
   };
@@ -122,15 +124,19 @@ const SignIn = () => {
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
                 Password
               </label>
+              <FaEye
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-[55%] right-5 cursor-pointer"
+              />
               <input
-                type="password"
+                type={`${showPassword ? "text" : "password"}`}
                 id="password"
                 name="password"
                 value={formData.password}
@@ -177,7 +183,7 @@ const SignIn = () => {
           <p className="text-center text-sm text-gray-600 mt-4">
             Already have an account?{" "}
             <Link to="/sign-up" className="text-blue-500 underline">
-              Sign In Instead
+              Sign Up Instead
             </Link>
           </p>
         </div>

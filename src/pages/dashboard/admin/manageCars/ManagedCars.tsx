@@ -57,7 +57,7 @@ const ManagedCars = () => {
               <div className="flex items-center justify-between gap-5 md:w-[70%]">
                 <div>
                   {car.isDeleted && (
-                    <p className="text-red-600 font-semibold"> Deleted</p>
+                    <p className={`text-red-600 font-semibold`}> Deleted</p>
                   )}
                   <h3
                     className={`font-semibold text-[15px] ${
@@ -86,7 +86,7 @@ const ManagedCars = () => {
                     Update car{" "}
                   </Link>
                   {car.isDeleted ? (
-                    <button className="rounded text-white font-semibold px-4 py-2 bg-red-500 hover:bg-red-600">
+                    <button className="rounded text-white font-semibold px-4 py-2 bg-red-300">
                       {" "}
                       Deleted{" "}
                     </button>

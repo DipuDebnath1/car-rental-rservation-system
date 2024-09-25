@@ -64,10 +64,14 @@ const DashboardOverview = () => {
             <tbody>
               {totalBookings.map((booking) => (
                 <tr key={booking._id} className="border text-center ">
-                  <td className="border-x p-2 text-sm font-semibold">
+                  <td className={`border-x p-2 text-sm font-semibold `}>
                     {booking?.car?.name}
                   </td>
-                  <td className="border-x p-2 text-sm font-semibold">
+                  <td
+                    className={`border-x p-2 text-sm font-semibold ${
+                      booking.status === "canceled" && "text-red-700"
+                    }`}
+                  >
                     {booking?.user?.name}
                   </td>
                   <td className="border-x p-2 text-sm">

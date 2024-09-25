@@ -1,9 +1,11 @@
 import { usePostCarMutation } from "@/redux/api/adminApi";
+import { ImageUpload } from "@/utilities/imageUpload";
 import { useState } from "react";
 import { toast } from "sonner";
 
 const AddNewCar = () => {
   const [postCar] = usePostCarMutation();
+  // image local url
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -77,15 +79,29 @@ const AddNewCar = () => {
     return isValid;
   };
 
+  // handle image change
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleImageUpload = async (e: any) => {
+    try {
+      // local url
+      const imageLink = await ImageUpload(e);
+      // const localUrl = URL.createObjectURL(e);
+      if (imageLink) {
+        console.log(imageLink);
+        setFormData({ ...formData, img: imageLink });
+      }
+      // console.log(e);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
       try {
         // Uncomment when connected to API
         const result = await postCar(formData).unwrap();
-        console.log(formData);
-
-        console.log(result);
 
         if (result.success) {
           setFormData({
@@ -143,14 +159,17 @@ const AddNewCar = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Image URL</label>
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={formData.img}
-          onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-          className="w-full p-2 border border-gray-300 rounded-md"
-        />
+        <label className="block text-sm font-medium mb-2">Image</label>
+        {formData.img && (
+          <img src={formData.img} alt="image" className="h-32 w-auto" />
+        )}
+        {!formData.img && (
+          <input
+            type="file"
+            onChange={(e) => handleImageUpload(e.target.files?.[0])}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+        )}
         {errors.img && <p className="text-red-500 text-sm">{errors.img}</p>}
       </div>
 
