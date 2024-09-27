@@ -1,5 +1,5 @@
 import {
-  useGetUpcomingBookingQuery,
+  // useGetUpcomingBookingQuery,
   useGetUserBookingCarsQuery,
   useUserCancelHisBookingMutation,
 } from "@/redux/api/baseApi";
@@ -10,21 +10,34 @@ import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const BookingManagement = () => {
-  const { data: upcoming, isLoading } = useGetUpcomingBookingQuery(undefined);
-  const [upcomingBookings, setUpcomingBookings] = useState<TBooking[]>([]);
+  // const { data: upcoming, isLoading } = useGetUpcomingBookingQuery(undefined);
   const [pastBookings, setPastBookings] = useState<TBooking[]>([]);
+  const [pendingBookings, setPendingBookings] = useState<TBooking[]>([]);
+  const [confirmedBookings, setConfirmedBookings] = useState<TBooking[]>([]);
 
   const { data: completedData, isLoading: completedLoading } =
     useGetUserBookingCarsQuery("completed");
   const { data: canceledData, isLoading: canceledIsLoading } =
     useGetUserBookingCarsQuery("canceled");
+  const { data: pendingData, isLoading: pendingIsLoading } =
+    useGetUserBookingCarsQuery("pending");
+  const { data: confirmedData, isLoading: confirmedIsLoading } =
+    useGetUserBookingCarsQuery("confirmed");
   const [userCancelHisBooking] = useUserCancelHisBookingMutation();
 
   // set booking car
   useEffect(() => {
     // set upcoming booking car
-    if (upcoming?.success) {
-      setUpcomingBookings(upcoming?.data);
+    // if (upcoming?.success) {
+    //   setUpcomingBookings(upcoming?.data);
+    // }
+    // set pending booking car
+    if (pendingData?.success) {
+      setPendingBookings(pendingData?.data);
+    }
+    // set pending booking car
+    if (confirmedData?.success) {
+      setConfirmedBookings(confirmedData?.data);
     }
     // set past booking car
     const combinedBooking = [
@@ -32,10 +45,16 @@ const BookingManagement = () => {
       ...(canceledData?.success ? canceledData.data : []),
     ];
     setPastBookings(combinedBooking);
-  }, [upcoming, completedData, canceledData]);
+  }, [completedData, canceledData, pendingData, confirmedData]);
 
   // loader
-  if (isLoading || completedLoading || canceledIsLoading) {
+  if (
+    // isLoading ||
+    completedLoading ||
+    canceledIsLoading ||
+    pendingIsLoading ||
+    confirmedIsLoading
+  ) {
     return <Loading />;
   }
 
@@ -71,12 +90,67 @@ const BookingManagement = () => {
     <div className="py-10 px-5">
       <h1 className="text-2xl font-bold">Booking Management</h1>
       <div className="bookings-section mt-8">
-        {/* upcoming booking  */}
-        {upcomingBookings.length > 0 && (
+        {/* pending  booking  */}
+        {pendingBookings.length > 0 && (
           <div>
-            <h2 className="text-xl font-semibold pb-3">Upcoming Bookings</h2>
+            <h2 className="text-xl font-semibold pb-3">Pending Bookings</h2>
             <div className="past-bookings space-y-4">
-              {upcomingBookings.map((booking) => (
+              {pendingBookings.map((booking) => (
+                <div
+                  key={booking._id}
+                  className="booking-card p-4 border rounded-lg flex items-center md:justify-between flex-col-reverse md:flex-row space-y-5 justify-start "
+                >
+                  {/* info  */}
+                  <div>
+                    <h3 className="font-semibold text-[15px]">
+                      {booking.car.name}
+                    </h3>
+                    <p className="text-semibold">
+                      Date: {booking.pickUpDate} to {booking.dropOffDate}
+                    </p>
+                    <p className="text-semibold">Time: {booking.startTime}</p>
+                    <p>Total Cost: ${booking.totalCost}</p>
+                  </div>
+                  {/* status  */}
+                  <div className="flex items-center gap-5">
+                    <button
+                      className={`bg-${
+                        booking.status === "confirmed" ? "green" : "yellow"
+                      }-500 text-white px-4 py-2 rounded-md`}
+                    >
+                      {booking.status}
+                    </button>
+                    {booking.status == "pending" && (
+                      <button
+                        onClick={() =>
+                          handleCancelBooking(booking._id as string)
+                        }
+                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                      >
+                        {" "}
+                        Cancel booking
+                      </button>
+                    )}
+                  </div>
+                  {/* img  */}
+                  <figure>
+                    <img
+                      src={booking.car.img}
+                      alt={booking.car.name}
+                      className="max-w-40"
+                    />
+                  </figure>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {/* pending  booking  */}
+        {confirmedBookings.length > 0 && (
+          <div>
+            <h2 className="text-xl font-semibold pb-3">Confirmed Bookings</h2>
+            <div className="past-bookings space-y-4">
+              {confirmedBookings.map((booking) => (
                 <div
                   key={booking._id}
                   className="booking-card p-4 border rounded-lg flex items-center md:justify-between flex-col-reverse md:flex-row space-y-5 justify-start "
@@ -179,11 +253,13 @@ const BookingManagement = () => {
         )}
       </div>
 
-      {upcomingBookings.length < 1 && pastBookings.length < 1 && (
-        <div>
-          <p>No past bookings.</p>
-        </div>
-      )}
+      {pendingBookings.length < 1 &&
+        confirmedBookings.length < 1 &&
+        pastBookings.length < 1 && (
+          <div>
+            <p>No past bookings.</p>
+          </div>
+        )}
     </div>
   );
 };

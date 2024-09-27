@@ -12,6 +12,7 @@ const AddNewCar = () => {
     img: "",
     color: "",
     isElectric: false,
+    type: "",
     features: [] as string[],
     pricePerHour: 0,
     status: "available",
@@ -22,6 +23,7 @@ const AddNewCar = () => {
     description: "",
     img: "",
     color: "",
+    type: "",
     isElectric: "",
     features: "",
     pricePerHour: "",
@@ -32,6 +34,7 @@ const AddNewCar = () => {
     const newErrors = {
       name: "",
       description: "",
+      type: "",
       img: "",
       color: "",
       isElectric: "",
@@ -48,6 +51,12 @@ const AddNewCar = () => {
     // Description Validation
     if (formData.description.trim().length < 10) {
       newErrors.description = "Description must be at least 10 characters";
+      isValid = false;
+    }
+
+    // type Validation
+    if (formData.type.trim().length < 0) {
+      newErrors.type = "type is required";
       isValid = false;
     }
 
@@ -109,6 +118,7 @@ const AddNewCar = () => {
             description: "",
             img: "",
             color: "",
+            type: "",
             isElectric: false,
             features: [] as string[],
             pricePerHour: 0,
@@ -244,6 +254,20 @@ const AddNewCar = () => {
           <option value="booked">Booked</option>
           <option value="maintenance">Maintenance</option>
         </select>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-2">Type</label>
+        <select
+          value={formData.type}
+          onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="SUV">SUV</option>
+          <option value="Sedan">Sedan</option>
+          <option value="Hybrid">Hybrid</option>
+        </select>
+        {errors.type && <p className="text-red-500 text-sm">{errors.type}</p>}
       </div>
 
       <button

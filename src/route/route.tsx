@@ -14,6 +14,8 @@ import DashboardLayout from "@/pages/dashboard/DashboardLayout";
 import { userPaths } from "./user.route";
 import AdminRoute from "@/pages/authoraization-user/AdminRoute";
 import UserRoute from "@/pages/authoraization-user/UserRoute";
+import Booking from "@/pages/booking/Booking";
+import BookingForm from "@/pages/bookingForm/BookingForm";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ export const router = createBrowserRouter([
         element: <CarListingPage />,
       },
       {
+        path: "booking",
+        element: <Booking />,
+      },
+      {
+        path: "booking/:id",
+        element: <BookingForm />,
+      },
+      {
         path: "car-details/:id",
         element: <CarDetails />,
       },
@@ -43,12 +53,21 @@ export const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element:<AdminRoute> <DashboardLayout /></AdminRoute>,
+        element: (
+          <AdminRoute>
+            {" "}
+            <DashboardLayout />
+          </AdminRoute>
+        ),
         children: routeGenerator(adminPaths),
       },
       {
-        path: 'user',
-        element: <UserRoute><DashboardLayout /></UserRoute>,
+        path: "user",
+        element: (
+          <UserRoute>
+            <DashboardLayout />
+          </UserRoute>
+        ),
         children: routeGenerator(userPaths),
       },
     ],

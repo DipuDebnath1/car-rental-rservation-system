@@ -18,6 +18,7 @@ type TFormData = {
   features?: string[];
   pricePerHour?: number;
   status?: string;
+  type?: string;
 };
 
 const UpdateCars = () => {
@@ -252,6 +253,21 @@ const UpdateCars = () => {
               <option value="unavailable">Unavailable</option>
               <option value="booked">Booked</option>
               <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">Type</label>
+            <select
+              value={formData.type}
+              onChange={(e) =>
+                setFormData({ ...formData, type: e.target.value })
+              }
+              className="w-full p-2 border border-gray-300 rounded-md"
+            >
+              <option value="SUV">SUV</option>
+              <option value="Sedan">Sedan</option>
+              <option value="Hybrid">Hybrid</option>
             </select>
           </div>
 

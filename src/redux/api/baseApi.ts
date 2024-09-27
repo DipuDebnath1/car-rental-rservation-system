@@ -29,6 +29,41 @@ export const baseApi = createApi({
       providesTags: ["cars"],
     }),
 
+    // find by search-criteria
+    getCarsWithSearchCriteria: builder.query({
+      query: (data) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const params = () => {
+          const queryParts = [];
+
+          // Check for status and add to query parts if exists
+          if (data?.features) {
+            queryParts.push(`features=${encodeURIComponent(data.features)}`);
+          }
+
+          // Check for name and encode it before adding
+          if (data?.name) {
+            queryParts.push(`name=${encodeURIComponent(data.name)}`);
+          }
+
+          // Check for type and encode it before adding
+          if (data?.type) {
+            queryParts.push(`type=${encodeURIComponent(data.type)}`);
+          }
+
+          // Return the complete query string or an empty string if no parameters
+          return queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
+        };
+
+        const url = `/cars/search-criteria${params()}`;
+
+        return {
+          url,
+          method: "GET",
+        };
+      },
+    }),
+
     //query a cars
     getCar: builder.query({
       query: (id) => `/cars/${id}`,
@@ -61,7 +96,17 @@ export const baseApi = createApi({
       }),
     }),
 
-    //query a cars
+    // book a car
+    bookACar: builder.mutation({
+      query: (data) => ({
+        url: "/bookings",
+        body: data,
+        method: "POST",
+      }),
+      invalidatesTags: ["cars", "booking"],
+    }),
+
+    //query user booking cars
     getUserBookingCars: builder.query({
       query: (status) => {
         const queryParam = status ? `?status=${status} ` : "";
@@ -99,10 +144,12 @@ export const baseApi = createApi({
 export const {
   useGetCarsQuery,
   useGetCarQuery,
+  useGetCarsWithSearchCriteriaQuery,
   useSignInUserMutation,
   useSignUpUserMutation,
   useGetUserBookingCarsQuery,
   useUpdateUserMutation,
+  useBookACarMutation,
   useGetUpcomingBookingQuery,
   useUserCancelHisBookingMutation,
 } = baseApi;
