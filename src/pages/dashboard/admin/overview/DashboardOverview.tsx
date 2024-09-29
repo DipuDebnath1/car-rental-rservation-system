@@ -3,6 +3,7 @@ import { useGetCarsQuery } from "@/redux/api/baseApi";
 import Loading from "@/shared-components/Loading";
 import { TBooking, TCar } from "@/types/allTyps";
 import { useEffect, useState } from "react";
+import { FaCheck } from "react-icons/fa";
 
 const DashboardOverview = () => {
   const [totalBookings, setTotalBookings] = useState<TBooking[]>([]);
@@ -63,7 +64,14 @@ const DashboardOverview = () => {
             </thead>
             <tbody>
               {totalBookings.map((booking) => (
-                <tr key={booking._id} className="border text-center ">
+                <tr
+                  key={booking._id}
+                  className={`border text-center ${
+                    booking.paymentStatus === "unpaid" &&
+                    booking.status === "completed" &&
+                    "bg-red-100"
+                  } `}
+                >
                   <td className={`border-x p-2 text-sm font-semibold `}>
                     {booking?.car?.name}
                   </td>
@@ -78,11 +86,25 @@ const DashboardOverview = () => {
                     {booking.pickUpDate} to {booking.dropOffDate}
                   </td>
                   <td
-                    className={`border-x p-2 text-sm font-semibold ${
+                    className={`border-x p-2 text-sm font-semibold flex justify-center items-center gap-2 ${
                       booking.status === "completed" && "text-green-700"
                     } ${booking.status === "canceled" && "text-red-700"}`}
                   >
+                    {/* completed & unpaid status */}
                     {booking.status}
+                    {booking.paymentStatus === "unpaid" &&
+                      booking.status === "completed" && (
+                        <span className="text-red-500">
+                          ({booking.paymentStatus})
+                        </span>
+                      )}
+                    {/* completed & paid status*/}
+                    {booking.paymentStatus === "paid" &&
+                      booking.status === "completed" && (
+                        <span className="text-green-500">
+                          <FaCheck />
+                        </span>
+                      )}
                   </td>
                   <td className="border-x p-2 text-sm">${booking.totalCost}</td>
                 </tr>

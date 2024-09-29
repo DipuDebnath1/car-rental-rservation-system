@@ -1,4 +1,5 @@
 export type TCar = {
+  length: number;
   _id: string;
   name: string;
   description: string;
@@ -30,7 +31,7 @@ export type TUser = {
 };
 
 export type TBooking = {
-  _id?: string;
+  _id: string;
   user: TUser;
   car: TCar;
   pickUpDate: string;

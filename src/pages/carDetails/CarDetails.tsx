@@ -25,7 +25,9 @@ const CarDetailPage = () => {
     setCar(data?.data);
   }, [data]);
 
-  if (isLoading) <Loading />;
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const handleFeatureSelect = (feature: string) => {
     console.log(feature);

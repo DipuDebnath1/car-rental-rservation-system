@@ -6,6 +6,8 @@ import {
 import Loading from "@/shared-components/Loading";
 import { TBooking } from "@/types/allTyps";
 import { useEffect, useState } from "react";
+import { FaCheck } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 
@@ -27,10 +29,6 @@ const BookingManagement = () => {
 
   // set booking car
   useEffect(() => {
-    // set upcoming booking car
-    // if (upcoming?.success) {
-    //   setUpcomingBookings(upcoming?.data);
-    // }
     // set pending booking car
     if (pendingData?.success) {
       setPendingBookings(pendingData?.data);
@@ -217,8 +215,22 @@ const BookingManagement = () => {
                 >
                   {/* info  */}
                   <div>
-                    <h3 className="font-semibold text-[15px]">
+                    <h3 className="font-semibold text-[15px] flex gap-3">
                       {booking.car.name}
+                      {booking.status === "completed" &&
+                        booking.paymentStatus === "unpaid" && (
+                          <span className="bg-red-500 py-1 px-2 text-white rounded ">
+                            {" "}
+                            {booking.paymentStatus}
+                          </span>
+                        )}
+                      {booking.status === "completed" &&
+                        booking.paymentStatus === "paid" && (
+                          <span className="bg-green-500 py-1 px-2 text-white rounded ml-2">
+                            {" "}
+                            <FaCheck />
+                          </span>
+                        )}
                     </h3>
                     <p className="text-semibold">
                       Date: {booking.pickUpDate} to {booking.dropOffDate}
@@ -237,6 +249,15 @@ const BookingManagement = () => {
                     >
                       {booking.status}
                     </button>
+                    {booking.status === "completed" &&
+                      booking.paymentStatus === "unpaid" && (
+                        <Link
+                          to={"/user/payment-management"}
+                          className={`bg-green-700 text-white px-4 py-2 rounded-md`}
+                        >
+                          Pay totalCost
+                        </Link>
+                      )}
                   </div>
                   {/* img  */}
                   <figure>

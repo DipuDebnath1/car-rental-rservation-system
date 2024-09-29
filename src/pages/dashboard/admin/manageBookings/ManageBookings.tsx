@@ -11,6 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import Loading from "@/shared-components/Loading";
 import { useEffect, useState } from "react";
+import { FaCheck } from "react-icons/fa";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 
@@ -149,8 +150,23 @@ const ManageBookings = () => {
                 >
                   <div className="flex justify-between items-center">
                     <h2 className="font-bold text-center">
-                      Status: {booking.status}
+                      Status: {booking.status} {/* unpaid status  */}
+                      {booking.paymentStatus === "unpaid" &&
+                        booking.status === "completed" && (
+                          <span className="py-1 px-2 bg-red-500 text-white rounded">
+                            UnPaid !
+                          </span>
+                        )}
+                      {/* paid status  */}
+                      {booking.paymentStatus === "paid" &&
+                        booking.status === "completed" && (
+                          <span className=" px-2 py-1 bg-green-500 text-white rounded">
+                            <FaCheck className="inline text-xl pb-1 items-center" />
+                          </span>
+                        )}
                     </h2>
+
+                    {/* booking confirm   */}
                     {booking.status === "pending" && (
                       <p className="flex gap-5">
                         {booking.status === "pending" && (
@@ -163,6 +179,7 @@ const ManageBookings = () => {
                             booking Confirm
                           </button>
                         )}
+                        {/* booking cancelled   */}
                         <button
                           onClick={() =>
                             handleCancelBooking(booking._id as string)

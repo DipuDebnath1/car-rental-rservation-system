@@ -5,8 +5,8 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
   tagTypes: ["cars", "user", "booking", "admin"],
   baseQuery: fetchBaseQuery({
-    // baseUrl:"https://car-rental-reservation-system-oe6by7q2p.vercel.app/api",
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: import.meta.env.VITE_SERVER_URL,
+    // "https://car-rental-reservation-system-server-cxh11vmab.vercel.app/api",
 
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).user.token;

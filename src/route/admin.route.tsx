@@ -3,7 +3,6 @@ import ManageBookings from "@/pages/dashboard/admin/manageBookings/ManageBooking
 import AddNewCar from "@/pages/dashboard/admin/manageCars/AddNewCar";
 import ManagedCars from "@/pages/dashboard/admin/manageCars/ManagedCars";
 import UpdateCars from "@/pages/dashboard/admin/manageCars/UpdateCars";
-import ReturnOptions from "@/pages/dashboard/admin/manageReturnCars/returnOptions/ReturnOptions";
 import ViewBookedCars from "@/pages/dashboard/admin/manageReturnCars/viewBookedCars/ViewBookedCars";
 import DashboardOverview from "@/pages/dashboard/admin/overview/DashboardOverview";
 import UserManagement from "@/pages/dashboard/admin/userManagement/UserManagement";
@@ -63,26 +62,12 @@ export const adminPaths = [
   },
   {
     name: "Manege Return",
-    children: [
-      {
-        name: "View Booked Cars",
-        path: "booked-cars",
-        element: (
-          <AdminRoute>
-            <ViewBookedCars />
-          </AdminRoute>
-        ),
-      },
-      {
-        name: "Return Options",
-        path: "return",
-        element: (
-          <AdminRoute>
-            <ReturnOptions />
-          </AdminRoute>
-        ),
-      },
-    ],
+    path: "booked-cars",
+    element: (
+      <AdminRoute>
+        <ViewBookedCars />
+      </AdminRoute>
+    ),
   },
   {
     name: "User Management",

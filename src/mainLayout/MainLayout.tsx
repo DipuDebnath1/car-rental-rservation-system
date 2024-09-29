@@ -10,26 +10,24 @@ import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
 const MainLayout = () => {
-  const dispatch = useAppDispatch()
-  const location = useLocation()
-  const {data,isLoading} = useGetCarsQuery(undefined)
-
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const { data, isLoading } = useGetCarsQuery(undefined);
 
   useEffect(() => {
     if (data) {
-      dispatch(setCars(data.data))
+      dispatch(setCars(data.data));
     }
-  }, [data]); 
+  }, [data]);
 
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
-
     <div>
       <Navbar />
-     {location.pathname ==='/' && <HeroSection />}
+      {location.pathname === "/" && <HeroSection />}
       <div className="max-w-7xl mx-auto w-full">
         <Outlet />
       </div>
